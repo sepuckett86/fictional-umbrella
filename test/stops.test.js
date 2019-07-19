@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const Tour = require('../lib/models/Tour');
 // const Stop = require('../lib/models/Stop');
 
-describe('app routes', () => {
+describe('stops routes', () => {
   beforeAll(() => {
     connect();
   });
