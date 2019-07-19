@@ -17,4 +17,16 @@ describe('app routes', () => {
   afterAll(() => {
     return mongoose.connection.close();
   });
+  describe('tour routes', () => {
+    it('posts a new tour', () => {
+      return request(app)
+        .post('/api/v1/tours')
+        .send({ })
+        .then(res => {
+          expect(res.body).toEqual({
+
+          });
+        });
+    });
+  });
 });
