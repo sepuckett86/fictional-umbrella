@@ -19,12 +19,22 @@ describe('app routes', () => {
   });
   describe('tour routes', () => {
     it('posts a new tour', () => {
+      const tour = {
+        title: 'Mind Exploration',
+        launchDate: Date.now()
+      };
+
       return request(app)
         .post('/api/v1/tours')
-        .send({ })
+        .send(tour)
         .then(res => {
           expect(res.body).toEqual({
-
+            _id: expect.any(String),
+            title: 'Mind Exploration',
+            launchDate: expect.any(String),
+            activities: [],
+            stops: [],
+            __v: 0
           });
         });
     });
