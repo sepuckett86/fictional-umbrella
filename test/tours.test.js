@@ -50,13 +50,32 @@ describe('app routes', () => {
     return request(app)
       .get('/api/v1/tours')
       .then(res => {
-        expect(res.body).toEqual([
-          {
-            _id: tour._id,
-            title: 'Mind Exploration',
-            launchDate: expect.any(String)
-          }
-        ]);
+        expect(res.body).toEqual([{
+          _id: tour._id,
+          title: 'Mind Exploration',
+          launchDate: expect.any(String),
+          activities: [],
+          stops: []
+        }]);
+      });
+  });
+
+  it('gets tour by id', async() => {
+    const tour = JSON.parse(JSON.stringify(await Tour.create({
+      title: 'Mind Exploration',
+      launchDate: Date.now()
+    })));
+
+    return request(app)
+      .get(`/api/v1/tours/${tour._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: tour._id,
+          title: 'Mind Exploration',
+          launchDate: expect.any(String),
+          activities: [],
+          stops: []
+        });
       });
   });
 });
