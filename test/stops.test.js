@@ -50,21 +50,50 @@ describe('stops routes', () => {
       .send(stop)
       .then(res => {
         expect(res.body).toEqual({
-          _id: expect.any(String),
-          location: {
-            latitude: 45.5155,
-            longitude: 122.6793
-          },
-          weather: {
-            temp: 299.87,
-            pressure: 1007,
-            humidity: 61,
-            temp_min: 292.59,
-            temp_max: 305.93
-          },
-          attendance: 100,
-          __v: 0
+          __v: 0,
+          _id: tour._id,
+          title: 'Mind Exploration',
+          launchDate: expect.any(String),
+          activities: [],
+          stops: [{
+            _id: expect.any(String),
+            location: {
+              latitude: 45.5155,
+              longitude: 122.6793
+            },
+            weather: {
+              temp: 299.87,
+              pressure: 1007,
+              humidity: 61,
+              temp_min: 292.59,
+              temp_max: 305.93
+            },
+            attendance: 100,
+            __v: 0
+          }]
         });
       });
   });
+
+  // it('gets stops', async() => {
+  //   const stop = JSON.parse(JSON.stringify(await Stop.create({
+  //     location: {
+  //       latitude: 45.5155,
+  //       longitude: 122.6793
+  //     },
+  //     weather: {
+  //       temp: 299.87,
+  //       pressure: 1007,
+  //       humidity: 61,
+  //       temp_min: 292.59,
+  //       temp_max: 305.93
+  //     },
+  //     attendance: 100
+  //   })));
+  //   request(app)
+  //     .get(`/api/v1/tours/${tour._id}/stops`)
+  //     .then(res => {
+  //       expext(res.body).toEqual()
+  //     })
+  // });
 });
