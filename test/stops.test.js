@@ -115,4 +115,46 @@ describe('stops routes', () => {
         });
       });
   });
+
+  it('updates attendance for stop by id', async() => {
+    const stop = await Stop.create({
+      location: {
+        latitude: 45.5155,
+        longitude: 122.6793
+      },
+      weather: {
+        temp: 299.87,
+        pressure: 1007,
+        humidity: 61,
+        temp_min: 292.59,
+        temp_max: 305.93
+      },
+      attendance: 100
+    });
+
+    await Tour
+      .findByIdAndUpdate(tour._id, { $push: { stops: stop._id } }, { new: true });
+
+    return request(app)
+      .put(`/api/v1/tours/${tour._id}/stops/${stop._id}/attendance`)
+      .send({ attendance: 2000 })
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          location: {
+            latitude: 45.5155,
+            longitude: 122.6793
+          },
+          weather: {
+            temp: 299.87,
+            pressure: 1007,
+            humidity: 61,
+            temp_min: 292.59,
+            temp_max: 305.93
+          },
+          attendance: 2000,
+          __v: 0
+        });
+      });
+  });
 });
