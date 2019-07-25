@@ -6,7 +6,7 @@ const connect = require('../lib/utils/connect');
 const mongoose = require('mongoose');
 
 const Tour = require('../lib/models/Tour');
-// const Stop = require('../lib/models/Stop');
+const Stop = require('../lib/models/Stop');
 
 describe('stops routes', () => {
   beforeAll(() => {
@@ -75,25 +75,44 @@ describe('stops routes', () => {
       });
   });
 
-  // it('gets stops', async() => {
-  //   const stop = JSON.parse(JSON.stringify(await Stop.create({
-  //     location: {
-  //       latitude: 45.5155,
-  //       longitude: 122.6793
-  //     },
-  //     weather: {
-  //       temp: 299.87,
-  //       pressure: 1007,
-  //       humidity: 61,
-  //       temp_min: 292.59,
-  //       temp_max: 305.93
-  //     },
-  //     attendance: 100
-  //   })));
-  //   request(app)
-  //     .get(`/api/v1/tours/${tour._id}/stops`)
-  //     .then(res => {
-  //       expext(res.body).toEqual()
-  //     })
-  // });
+  it('deletes a stop', async() => {
+    const stop = await Stop.create({
+      location: {
+        latitude: 45.5155,
+        longitude: 122.6793
+      },
+      weather: {
+        temp: 299.87,
+        pressure: 1007,
+        humidity: 61,
+        temp_min: 292.59,
+        temp_max: 305.93
+      },
+      attendance: 100
+    });
+
+    await Tour
+      .findByIdAndUpdate(tour._id, { $push: { stops: stop._id } }, { new: true });
+
+    return request(app)
+      .delete(`/api/v1/tours/${tour._id}/stops/${stop._id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          location: {
+            latitude: 45.5155,
+            longitude: 122.6793
+          },
+          weather: {
+            temp: 299.87,
+            pressure: 1007,
+            humidity: 61,
+            temp_min: 292.59,
+            temp_max: 305.93
+          },
+          attendance: 100,
+          __v: 0
+        });
+      });
+  });
 });
